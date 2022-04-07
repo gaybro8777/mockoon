@@ -14,6 +14,7 @@ import {
   INDENT_SIZE,
   Methods,
   MimeTypesWithTemplating,
+  PseudoMethods,
   Route,
   RouteDefault,
   RouteResponse,
@@ -53,6 +54,13 @@ import { Store } from 'src/renderer/app/stores/store';
 import { Config } from 'src/shared/config';
 
 const MethodsDropdown: DropdownItems = [
+  { category: true, label: 'Misc' },
+  {
+    value: PseudoMethods.graphql,
+    label: 'GraphQL',
+    classes: 'http-method-graphql-text'
+  },
+  { category: true, label: 'HTTP' },
   {
     value: Methods.get,
     label: 'GET',

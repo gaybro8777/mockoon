@@ -1,7 +1,8 @@
 import { v4 as uuid } from 'uuid';
 import {
   EnvironmentDefault,
-  ResponseRuleDefault
+  ResponseRuleDefault,
+  RouteResponseDefault
 } from '../constants/environment-schema.constants';
 import { Environment } from '../models/environment.model';
 import {
@@ -391,6 +392,21 @@ export const Migrations: {
       }
 
       delete environment['https'];
+    }
+  },
+  /**
+   * Add graphql properties
+   */
+  {
+    id: 20,
+    migrationFunction: (environment: Environment) => {
+      environment.routes.forEach((route: Route) => {
+        route.responses.forEach((routeResponse) => {
+          if (routeResponse.graphQLSchema === undefined) {
+            routeResponse.graphQLSchema = RouteResponseDefault.graphQLSchema;
+          }
+        });
+      });
     }
   }
 ];

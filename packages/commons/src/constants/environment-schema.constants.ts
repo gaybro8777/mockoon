@@ -8,6 +8,7 @@ import {
 import {
   Header,
   Methods,
+  PseudoMethods,
   ResponseRule,
   Route,
   RouteResponse
@@ -60,6 +61,7 @@ export const RouteResponseDefault: RouteResponse = {
     return uuid();
   },
   body: '{}',
+  graphQLSchema: '',
   latency: 0,
   statusCode: 200,
   label: '',
@@ -146,6 +148,10 @@ const RouteResponseRuleSchema = Joi.object<ResponseRule, true>({
 const RouteResponseSchema = Joi.object<RouteResponse, true>({
   uuid: UUIDSchema,
   body: Joi.string().allow('').failover(RouteResponseDefault.body).required(),
+  graphQLSchema: Joi.string()
+    .allow('')
+    .failover(RouteResponseDefault.graphQLSchema)
+    .required(),
   latency: Joi.number()
     .min(0)
     .failover(RouteResponseDefault.latency)
@@ -191,6 +197,7 @@ export const RouteSchema = Joi.object<Route, true>({
     .required(),
   method: Joi.string()
     .valid(
+      PseudoMethods.graphql,
       Methods.get,
       Methods.post,
       Methods.put,
